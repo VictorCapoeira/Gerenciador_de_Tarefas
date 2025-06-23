@@ -1,0 +1,82 @@
+body {
+        background: #f8f9fa;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .agenda-container {
+        max-width: 700px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        padding: 32px 40px 24px 40px;
+    }
+    h1 {
+        color: #007bff;
+        margin-bottom: 24px;
+        text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 24px;
+    }
+    th, td {
+        padding: 10px 8px;
+        text-align: left;
+    }
+    th {
+        background: #f1f3f6;
+        color: #333;
+    }
+    tr:not(:last-child) {
+        border-bottom: 1px solid #e9ecef;
+    }
+    .actions button, .actions a {
+        margin-right: 6px;
+        border: none;
+        background: none;
+        color: #007bff;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 1em;
+    }
+    .actions button:last-child, .actions a:last-child {
+        margin-right: 0;
+    }
+    .concluida {
+        text-decoration: line-through;
+        color: #28a745;
+    }
+    .nova-tarefa-form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+        flex-wrap: wrap;
+    }
+    .nova-tarefa-form input, .nova-tarefa-form textarea {
+        padding: 6px 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+    .nova-tarefa-form button {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 7px 18px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s;
+    }
+    .nova-tarefa-form button:hover {
+        background: #0056b3;
+    }
+    @media (max-width: 800px) {
+        .agenda-container {
+            padding: 16px 4vw;
+        }
+        .nova-tarefa-form {
+            flex-direction: column;
+        }
+    }
