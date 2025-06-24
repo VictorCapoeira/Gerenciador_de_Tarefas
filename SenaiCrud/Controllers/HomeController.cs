@@ -46,6 +46,19 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    public IActionResult Concluir(int id)
+    {
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa != null && !tarefa.Concluida)
+        {
+            tarefa.Concluida = true;
+            tarefa.DataConclusao = DateTime.Now;
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Privacy()
     {
         return View();
