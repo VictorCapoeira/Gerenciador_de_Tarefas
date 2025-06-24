@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SenaiCrud")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5567d327a5bb4dd64cbd2e88277d8673eceb6075")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3c64c536366e1a656cf8c50b52a7f7a87da0024")]
 [assembly: System.Reflection.AssemblyProductAttribute("SenaiCrud")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SenaiCrud")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
