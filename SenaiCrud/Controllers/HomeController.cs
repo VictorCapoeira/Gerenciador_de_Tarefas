@@ -17,9 +17,10 @@ public class HomeController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int? editId = null)
     {
         var tarefas = _context.Tarefas.OrderByDescending(t => t.DataCriacao).ToList();
+        ViewBag.EditId = editId;
         return View(tarefas);
     }
 
@@ -56,6 +57,40 @@ public class HomeController : Controller
             tarefa.DataConclusao = DateTime.Now;
             _context.SaveChanges();
         }
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa == null)
+        {
+            return NotFound();
+        }
+        return View(tarefa);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(int id, string Titulo, string? Descricao)
+    {
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa == null)
+        {
+            return NotFound();
+        }
+
+        if (string.IsNullOrWhiteSpace(Titulo))
+        {
+            ModelState.AddModelError("Titulo", "O título é obrigatório.");
+            // Volta para a tela principal, mantendo o modo edição
+            return RedirectToAction("Index", new { editId = id });
+        }
+
+        tarefa.Titulo = Titulo;
+        tarefa.Descricao = Descricao;
+        _context.SaveChanges();
+
         return RedirectToAction("Index");
     }
 
