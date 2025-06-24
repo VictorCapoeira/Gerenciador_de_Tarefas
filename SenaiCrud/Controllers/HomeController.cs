@@ -94,6 +94,18 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa != null)
+        {
+            _context.Tarefas.Remove(tarefa);
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Index");
+    }
+
     public IActionResult Privacy()
     {
         return View();
