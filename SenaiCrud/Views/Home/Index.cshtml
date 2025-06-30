@@ -56,14 +56,8 @@
                             </td>
                             <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
                             <td>
-                                @if (tarefa.Concluida)
-                                {
-                                    <span style="color: #28a745;">Concluída</span>
-                                }
-                                else
-                                {
-                                    <span style="color: #dc3545;">Pendente</span>
-                                }
+                                <input type="checkbox" name="Concluida" value="true" @(tarefa.Concluida ? "checked" : "") />
+                                <span>@(tarefa.Concluida ? "Concluída" : "Pendente")</span>
                             </td>
                             <td class="actions">
                                 <button type="submit" title="Salvar">Salvar</button>
