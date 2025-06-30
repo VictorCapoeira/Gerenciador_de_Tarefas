@@ -13,7 +13,7 @@ public class HomeController : Controller
 
     public HomeController(ILogger<HomeController> logger, SenaiCrudDbContext context) // Modifique o construtor
     {
-        _logger = logger;
+        // _logger = logger;
         _context = context;
     }
 
@@ -72,7 +72,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Edit(int id, string Titulo, string? Descricao)
+    public IActionResult Edit(int id, string Titulo, string? Descricao, bool Concluida)
     {
         var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
         if (tarefa == null)
@@ -83,12 +83,24 @@ public class HomeController : Controller
         if (string.IsNullOrWhiteSpace(Titulo))
         {
             ModelState.AddModelError("Titulo", "O título é obrigatório.");
-            // Volta para a tela principal, mantendo o modo edição
             return RedirectToAction("Index", new { editId = id });
         }
 
         tarefa.Titulo = Titulo;
         tarefa.Descricao = Descricao;
+
+        // Atualiza o status e a data de conclusão
+        if (Concluida && !tarefa.Concluida)
+        {
+            tarefa.Concluida = true;
+            tarefa.DataConclusao = DateTime.Now;
+        }
+        else if (!Concluida && tarefa.Concluida)
+        {
+            tarefa.Concluida = false;
+            tarefa.DataConclusao = null;
+        }
+
         _context.SaveChanges();
 
         return RedirectToAction("Index");
@@ -106,10 +118,10 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    // public IActionResult Privacy()
+    // {
+    //     return View();
+    // }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
