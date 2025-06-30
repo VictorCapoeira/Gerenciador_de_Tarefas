@@ -13,7 +13,7 @@ public class HomeController : Controller
 
     public HomeController(ILogger<HomeController> logger, SenaiCrudDbContext context) // Modifique o construtor
     {
-        _logger = logger;
+        // _logger = logger;
         _context = context;
     }
 
@@ -106,10 +106,10 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    // public IActionResult Privacy()
+    // {
+    //     return View();
+    // }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
