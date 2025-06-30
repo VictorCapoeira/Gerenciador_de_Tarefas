@@ -46,22 +46,28 @@
                 if (editId == tarefa.Id)
                 {
                     <tr>
-                        <form asp-action="Edit" method="post">
+                        <form asp-action="Edit" method="post" class="d-flex align-items-center">
                             <input type="hidden" name="id" value="@tarefa.Id" />
-                            <td>
-                                <input type="text" name="Titulo" value="@tarefa.Titulo" maxlength="255" required />
+                            <td class="p-1 align-middle">
+                                <input type="text" name="Titulo" value="@tarefa.Titulo" maxlength="255" required class="form-control form-control-sm" />
                             </td>
-                            <td>
-                                <textarea name="Descricao" rows="1">@tarefa.Descricao</textarea>
+                            <td class="p-1 align-middle">
+                                <textarea name="Descricao" rows="1" class="form-control form-control-sm">@tarefa.Descricao</textarea>
                             </td>
-                            <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
-                            <td>
-                                <input type="checkbox" name="Concluida" value="true" @(tarefa.Concluida ? "checked" : "") />
-                                <span>@(tarefa.Concluida ? "Concluída" : "Pendente")</span>
+                            <td class="p-1 align-middle" style="min-width:110px;">
+                                @tarefa.DataCriacao.ToString("dd/MM/yyyy")
                             </td>
-                            <td class="actions">
-                                <button type="submit" title="Salvar">Salvar</button>
-                                <a asp-action="Index">Cancelar</a>
+                            <td class="p-1 align-middle text-center">
+                                <input type="checkbox" name="Concluida" value="true" @(tarefa.Concluida ? "checked" : "") class="form-check-input" style="margin-top:0.2em;" />
+                                <span class="ms-1">@((tarefa.Concluida) ? "Concluída" : "Pendente")</span>
+                            </td>
+                            <td class="actions p-1 align-middle">
+                                <button type="submit" title="Salvar" class="btn btn-link p-0 m-0" style="color:#28a745;">
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                </button>
+                                <a asp-action="Index" class="btn btn-link p-0 m-0" title="Cancelar" style="color:#dc3545;">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </a>
                             </td>
                         </form>
                     </tr>
@@ -89,9 +95,9 @@
                                     <button title="Marcar como concluída">&#10003;</button>
                                 </form>
                             }
-                            <a asp-action="Index" asp-route-editId="@tarefa.Id" title="Editar">Editar</a>
+                            <a asp-action="Index" asp-route-editId="@tarefa.Id" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
                             <form asp-action="Delete" asp-route-id="@tarefa.Id" method="post" style="display:inline;" onsubmit="return confirm('Deseja excluir esta tarefa?');">
-                                <button title="Excluir" style="color:#dc3545;">Excluir</button>
+                                <button title="Excluir" style="color:#dc3545;"><i class="fa-solid fa-trash"></i></button>
                             </form>
                         </td>
                     </tr>
