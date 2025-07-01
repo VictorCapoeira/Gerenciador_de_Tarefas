@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "fICz5EwSt7Mhd397+Q1sl8YE7MmhnvGPVfP3qGV0lvw=",
+  "Hash": "yHoFbeIV2ZkL2DEDVYiZpB6LDbLADlhNaAWaX5xRphw=",
   "Source": "SenaiCrud",
   "BasePath": "_content/SenaiCrud",
   "Mode": "Default",
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "55os3wwry3",
-      "Integrity": "OYxW4gJElThAfVSsEYlrsovqqDfQoFGEVXe5SVkV+3E=",
+      "Fingerprint": "7cdpt4amps",
+      "Integrity": "OQPzSeNWJIaGIiVDvSrf0Vl305qxJhDfqMHfYJRZyFI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\site.css"
@@ -1321,7 +1321,7 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/site.55os3wwry3.css",
+      "Route": "css/site.7cdpt4amps.css",
       "AssetFile": "C:\\Users\\Alunos\\Documents\\Nada_Permance_Oculto\\Desenvolvimeto_web\\Gerenciador_de_Tarefas\\SenaiCrud\\wwwroot\\css\\site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -1331,7 +1331,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2013"
+          "Value": "683"
         },
         {
           "Name": "Content-Type",
@@ -1339,11 +1339,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OYxW4gJElThAfVSsEYlrsovqqDfQoFGEVXe5SVkV+3E=\""
+          "Value": "\"OQPzSeNWJIaGIiVDvSrf0Vl305qxJhDfqMHfYJRZyFI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 24 Jun 2025 11:20:55 GMT"
+          "Value": "Tue, 01 Jul 2025 11:41:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1353,7 +1353,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "55os3wwry3"
+          "Value": "7cdpt4amps"
         },
         {
           "Name": "label",
@@ -1361,7 +1361,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-OYxW4gJElThAfVSsEYlrsovqqDfQoFGEVXe5SVkV+3E="
+          "Value": "sha256-OQPzSeNWJIaGIiVDvSrf0Vl305qxJhDfqMHfYJRZyFI="
         }
       ]
     },
@@ -1376,7 +1376,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2013"
+          "Value": "683"
         },
         {
           "Name": "Content-Type",
@@ -1384,11 +1384,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"OYxW4gJElThAfVSsEYlrsovqqDfQoFGEVXe5SVkV+3E=\""
+          "Value": "\"OQPzSeNWJIaGIiVDvSrf0Vl305qxJhDfqMHfYJRZyFI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 24 Jun 2025 11:20:55 GMT"
+          "Value": "Tue, 01 Jul 2025 11:41:05 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -1398,7 +1398,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-OYxW4gJElThAfVSsEYlrsovqqDfQoFGEVXe5SVkV+3E="
+          "Value": "sha256-OQPzSeNWJIaGIiVDvSrf0Vl305qxJhDfqMHfYJRZyFI="
         }
       ]
     },

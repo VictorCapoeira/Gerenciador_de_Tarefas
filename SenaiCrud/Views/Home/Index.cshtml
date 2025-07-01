@@ -1,115 +1,175 @@
 ﻿@model IEnumerable<SenaiCrud.Models.Tables.Tarefas>
 
 <!DOCTYPE html>
-
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- CSS Personalizado -->
     <link rel="stylesheet" href="~/css/site.css" />
+   
 </head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="text-center"><i class="fas fa-tasks me-2"></i>Gerenciador de Tarefas</h1>
+        </div>
 
-<div class="agenda-container">
-    <h1>Agenda de Tarefas</h1>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <button class="btn btn-primary add-task-btn" data-bs-toggle="modal" data-bs-target="#addTaskModal">
+                    <i class="fas fa-plus me-2"></i>Adicionar Tarefa
+                </button>
+            </div>
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Pesquisar tarefas..." disabled>
+                    <button class="btn btn-outline-secondary" type="button" disabled>
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    <!-- Formulário para adicionar nova tarefa -->
-    <form asp-action="Create" method="post" class="nova-tarefa-form">
-        <input type="text" name="Titulo" placeholder="Título" required maxlength="255" />
-        <textarea name="Descricao" placeholder="Descrição" rows="1"></textarea>
-        <button type="submit">Adicionar</button>
-    </form>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Descrição</th>
-                <th>Criada em</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-        @{
-            var editId = ViewBag.EditId as int?;
-        }
-        @if (Model != null && Model.Any())
-        {
-            foreach (var tarefa in Model)
-            {
-                if (editId == tarefa.Id)
-                {
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered">
+                <thead class="table-light">
                     <tr>
-                        <form asp-action="Edit" method="post" class="d-flex align-items-center">
-                            <input type="hidden" name="id" value="@tarefa.Id" />
-                            <td class="p-1 align-middle">
-                                <input type="text" name="Titulo" value="@tarefa.Titulo" maxlength="255" required class="form-control form-control-sm" />
-                            </td>
-                            <td class="p-1 align-middle">
-                                <textarea name="Descricao" rows="1" class="form-control form-control-sm">@tarefa.Descricao</textarea>
-                            </td>
-                            <td class="p-1 align-middle" style="min-width:110px;">
-                                @tarefa.DataCriacao.ToString("dd/MM/yyyy")
-                            </td>
-                            <td class="p-1 align-middle text-center">
-                                <input type="checkbox" name="Concluida" value="true" @(tarefa.Concluida ? "checked" : "") class="form-check-input" style="margin-top:0.2em;" />
-                                <span class="ms-1">@((tarefa.Concluida) ? "Concluída" : "Pendente")</span>
-                            </td>
-                            <td class="actions p-1 align-middle">
-                                <button type="submit" title="Salvar" class="btn btn-link p-0 m-0" style="color:#28a745;">
-                                    <i class="fa-solid fa-floppy-disk"></i>
-                                </button>
-                                <a asp-action="Index" class="btn btn-link p-0 m-0" title="Cancelar" style="color:#dc3545;">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </a>
-                            </td>
-                        </form>
+                        <th>Título</th>
+                        <th>Descrição</th>
+                        <th>Criada em</th>
+                        <th>Status</th>
+                        <th>Ações</th>
                     </tr>
+                </thead>
+                <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var tarefa in Model)
+                    {
+                        <tr>
+                            <td>@tarefa.Titulo</td>
+                            <td class="task-description">@tarefa.Descricao</td>
+                            <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                @if (tarefa.Concluida)
+                                {
+                                    <span class="badge bg-success status-completed">Concluído</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark status-pending">Pendente</span>
+                                }
+                            </td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal-@tarefa.Id" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form asp-action="Delete" asp-route-id="@tarefa.Id" method="post" style="display:inline;" onsubmit="return confirm('Deseja excluir esta tarefa?');">
+                                    <button class="btn btn-sm btn-outline-danger" title="Excluir">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+
+                        <!-- Modal Editar Tarefa (um por tarefa) -->
+                        <div class="modal fade" id="editTaskModal-@tarefa.Id" tabindex="-1" aria-labelledby="editTaskModalLabel-@tarefa.Id" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form asp-action="Edit" method="post">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editTaskModalLabel-@tarefa.Id">Editar Tarefa</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="hidden" name="id" value="@tarefa.Id" />
+                                            <div class="mb-3">
+                                                <label class="form-label">Título</label>
+                                                <input type="text" class="form-control" name="Titulo" value="@tarefa.Titulo" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Descrição</label>
+                                                <textarea class="form-control" name="Descricao" rows="3">@tarefa.Descricao</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Status</label>
+                                                <select class="form-select" name="Concluida">
+                                                    <option value="false" selected="@(tarefa.Concluida ? "false" : "selected")">Pendente</option>
+                                                    <option value="true" selected="@(tarefa.Concluida ? "selected" : "false")">Concluído</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 }
                 else
                 {
                     <tr>
-                        <td class="@(tarefa.Concluida ? "concluida" : "")">@tarefa.Titulo</td>
-                        <td class="@(tarefa.Concluida ? "concluida" : "")">@tarefa.Descricao</td>
-                        <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
-                        <td>
-                            @if (tarefa.Concluida)
-                            {
-                                <span style="color: #28a745;">Concluída</span>
-                            }
-                            else
-                            {
-                                <span style="color: #dc3545;">Pendente</span>
-                            }
-                        </td>
-                        <td class="actions">
-                            @if (!tarefa.Concluida)
-                            {
-                                <form asp-action="Concluir" asp-route-id="@tarefa.Id" method="post" style="display:inline;">
-                                    <button title="Marcar como concluída">&#10003;</button>
-                                </form>
-                            }
-                            <a asp-action="Index" asp-route-editId="@tarefa.Id" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <form asp-action="Delete" asp-route-id="@tarefa.Id" method="post" style="display:inline;" onsubmit="return confirm('Deseja excluir esta tarefa?');">
-                                <button title="Excluir" style="color:#dc3545;"><i class="fa-solid fa-trash"></i></button>
-                            </form>
-                        </td>
+                        <td colspan="5" class="text-center text-muted">Nenhuma tarefa cadastrada.</td>
                     </tr>
                 }
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="5" style="text-align:center;color:#888;">Nenhuma tarefa cadastrada.</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-</div>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginação (opcional, estática) -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Próxima</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Modal para Adicionar Tarefa -->
+    <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form asp-action="Create" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addTaskModalLabel">Adicionar Nova Tarefa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Título</label>
+                            <input type="text" class="form-control" name="Titulo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" name="Descricao" rows="3"></textarea>
+                        </div>
+                        <!-- Status padrão é pendente ao criar -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Tarefa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
