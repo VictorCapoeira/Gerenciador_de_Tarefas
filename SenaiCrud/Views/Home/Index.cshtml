@@ -66,6 +66,14 @@
                                 }
                             </td>
                             <td class="action-buttons">
+                                @if (!tarefa.Concluida)
+                                {
+                                    <form asp-action="Concluir" asp-route-id="@tarefa.Id" method="post" style="display:inline;">
+                                        <button class="btn btn-sm btn-outline-success" title="Marcar como concluída">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </form>
+                                }
                                 <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editTaskModal-@tarefa.Id" title="Editar">
                                     <i class="fas fa-edit"></i>
                                 </button>
