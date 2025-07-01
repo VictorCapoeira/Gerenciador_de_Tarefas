@@ -25,25 +25,18 @@
                     <i class="fas fa-plus me-2"></i>Adicionar Tarefa
                 </button>
             </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Pesquisar tarefas..." disabled>
-                    <button class="btn btn-outline-secondary" type="button" disabled>
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </div>
+            
         </div>
 
         <div class="table-responsive">
             <table class="table table-hover table-bordered">
                 <thead class="table-light">
                     <tr>
-                        <th>Título</th>
-                        <th>Descrição</th>
-                        <th>Criada em</th>
-                        <th>Status</th>
-                        <th>Ações</th>
+                        <th style="width: 22%;">Título</th>
+                        <th style="width: 44%;">Descrição</th>
+                        <th style="width: 13%;">Criada em</th>
+                        <th style="width: 9%;">Status</th>
+                        <th style="width: 12%;">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,10 +45,10 @@
                     foreach (var tarefa in Model)
                     {
                         <tr>
-                            <td>@tarefa.Titulo</td>
-                            <td class="task-description">@tarefa.Descricao</td>
-                            <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
-                            <td>
+                            <td style="width: 22%;">@tarefa.Titulo</td>
+                            <td style="width: 48%;" class="task-description">@tarefa.Descricao</td>
+                            <td style="width: 13%;">@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
+                            <td style="width: 9%;">
                                 @if (tarefa.Concluida)
                                 {
                                     <span class="badge bg-success status-completed">Concluído</span>
@@ -65,7 +58,7 @@
                                     <span class="badge bg-warning text-dark status-pending">Pendente</span>
                                 }
                             </td>
-                            <td class="action-buttons">
+                            <td style="width: 8%;" class="action-buttons">
                                 @if (!tarefa.Concluida)
                                 {
                                     <form asp-action="Concluir" asp-route-id="@tarefa.Id" method="post" style="display:inline;">
@@ -132,20 +125,7 @@
             </table>
         </div>
 
-        <!-- Paginação (opcional, estática) -->
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Anterior</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Próxima</a>
-                </li>
-            </ul>
-        </nav>
+        
     </div>
 
     <!-- Modal para Adicionar Tarefa -->
