@@ -13,13 +13,14 @@ public class HomeController : Controller
 
     public HomeController(ILogger<HomeController> logger, SenaiCrudDbContext context) // Modifique o construtor
     {
-        _logger = logger;
+        // _logger = logger;
         _context = context;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int? editId = null)
     {
         var tarefas = _context.Tarefas.OrderByDescending(t => t.DataCriacao).ToList();
+        ViewBag.EditId = editId;
         return View(tarefas);
     }
 
@@ -46,10 +47,81 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult Privacy()
+    [HttpPost]
+    public IActionResult Concluir(int id)
     {
-        return View();
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa != null && !tarefa.Concluida)
+        {
+            tarefa.Concluida = true;
+            tarefa.DataConclusao = DateTime.Now;
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Index");
     }
+
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa == null)
+        {
+            return NotFound();
+        }
+        return View(tarefa);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(int id, string Titulo, string? Descricao, bool Concluida)
+    {
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa == null)
+        {
+            return NotFound();
+        }
+
+        if (string.IsNullOrWhiteSpace(Titulo))
+        {
+            ModelState.AddModelError("Titulo", "O título é obrigatório.");
+            return RedirectToAction("Index", new { editId = id });
+        }
+
+        tarefa.Titulo = Titulo;
+        tarefa.Descricao = Descricao;
+
+        // Atualiza o status e a data de conclusão
+        if (Concluida && !tarefa.Concluida)
+        {
+            tarefa.Concluida = true;
+            tarefa.DataConclusao = DateTime.Now;
+        }
+        else if (!Concluida && tarefa.Concluida)
+        {
+            tarefa.Concluida = false;
+            tarefa.DataConclusao = null;
+        }
+
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public IActionResult Delete(int id)
+    {
+        var tarefa = _context.Tarefas.FirstOrDefault(t => t.Id == id);
+        if (tarefa != null)
+        {
+            _context.Tarefas.Remove(tarefa);
+            _context.SaveChanges();
+        }
+        return RedirectToAction("Index");
+    }
+
+    // public IActionResult Privacy()
+    // {
+    //     return View();
+    // }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

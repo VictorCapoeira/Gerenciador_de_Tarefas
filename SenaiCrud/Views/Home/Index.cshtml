@@ -1,13 +1,10 @@
 ﻿@model IEnumerable<SenaiCrud.Models.Tables.Tarefas>
-@{
-    ViewData["Title"] = "Agenda de Tarefas";
-}
+
 <!DOCTYPE html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @* <title>Delicias minas- Rede Social Gastronômica</title> *@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -39,37 +36,66 @@
             </tr>
         </thead>
         <tbody>
+        @{
+            var editId = ViewBag.EditId as int?;
+        }
         @if (Model != null && Model.Any())
         {
             foreach (var tarefa in Model)
             {
-                <tr>
-                    <td class="@(tarefa.Concluida ? "concluida" : "")">@tarefa.Titulo</td>
-                    <td class="@(tarefa.Concluida ? "concluida" : "")">@tarefa.Descricao</td>
-                    <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
-                    <td>
-                        @if (tarefa.Concluida)
-                        {
-                            <span style="color: #28a745;">Concluída</span>
-                        }
-                        else
-                        {
-                            <span style="color: #dc3545;">Pendente</span>
-                        }
-                    </td>
-                    <td class="actions">
-                        @if (!tarefa.Concluida)
-                        {
-                            <form asp-action="Concluir" asp-route-id="@tarefa.Id" method="post" style="display:inline;">
-                                <button title="Marcar como concluída">&#10003;</button>
-                            </form>
-                        }
-                        <a asp-action="Edit" asp-route-id="@tarefa.Id" title="Editar">Editar</a>
-                        <form asp-action="Delete" asp-route-id="@tarefa.Id" method="post" style="display:inline;" onsubmit="return confirm('Deseja excluir esta tarefa?');">
-                            <button title="Excluir" style="color:#dc3545;">Excluir</button>
+                if (editId == tarefa.Id)
+                {
+                    <tr>
+                        <form asp-action="Edit" method="post">
+                            <input type="hidden" name="id" value="@tarefa.Id" />
+                            <td>
+                                <input type="text" name="Titulo" value="@tarefa.Titulo" maxlength="255" required />
+                            </td>
+                            <td>
+                                <textarea name="Descricao" rows="1">@tarefa.Descricao</textarea>
+                            </td>
+                            <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <input type="checkbox" name="Concluida" value="true" @(tarefa.Concluida ? "checked" : "") />
+                                <span>@(tarefa.Concluida ? "Concluída" : "Pendente")</span>
+                            </td>
+                            <td class="actions">
+                                <button type="submit" title="Salvar">Salvar</button>
+                                <a asp-action="Index">Cancelar</a>
+                            </td>
                         </form>
-                    </td>
-                </tr>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td class="@(tarefa.Concluida ? "concluida" : "")">@tarefa.Titulo</td>
+                        <td class="@(tarefa.Concluida ? "concluida" : "")">@tarefa.Descricao</td>
+                        <td>@tarefa.DataCriacao.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (tarefa.Concluida)
+                            {
+                                <span style="color: #28a745;">Concluída</span>
+                            }
+                            else
+                            {
+                                <span style="color: #dc3545;">Pendente</span>
+                            }
+                        </td>
+                        <td class="actions">
+                            @if (!tarefa.Concluida)
+                            {
+                                <form asp-action="Concluir" asp-route-id="@tarefa.Id" method="post" style="display:inline;">
+                                    <button title="Marcar como concluída">&#10003;</button>
+                                </form>
+                            }
+                            <a asp-action="Index" asp-route-editId="@tarefa.Id" title="Editar">Editar</a>
+                            <form asp-action="Delete" asp-route-id="@tarefa.Id" method="post" style="display:inline;" onsubmit="return confirm('Deseja excluir esta tarefa?');">
+                                <button title="Excluir" style="color:#dc3545;">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
             }
         }
         else
